@@ -1,1 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站正在建设中</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f0ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjEiLz48cGF0aCBkPSJNMCAxMDBMMTAwIDAgMjAwIDEwMCAxMDAgMjAwWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=');
+            animation: backgroundMove 20s linear infinite;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            max-width: 90%;
+            width: 600px;
+            position: relative;
+            z-index: 1;
+            transform: scale(0.95);
+            animation: containerEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin: 0 auto 30px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: textAppear 0.6s 0.3s forwards;
+        }
+
+        .construction-icon {
+            font-size: 4em;
+            color: #f1c40f;
+            margin: 20px 0;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .countdown {
+            font-size: 1.8em;
+            color: #e74c3c;
+            margin: 25px 0;
+            font-weight: bold;
+            opacity: 0;
+            animation: textAppear 0.6s 0.5s forwards;
+        }
+
+        p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin: 15px 0;
+            opacity: 0;
+            animation: textAppear 0.6s 0.7s forwards;
+        }
+
+        .contact {
+            margin-top: 30px;
+            color: #3498db;
+            opacity: 0;
+            animation: textAppear 0.6s 0.9s forwards;
+        }
+
+        @keyframes containerEntrance {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes textAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes backgroundMove {
+            from { background-position: 0 0; }
+            to { background-position: 200px 200px; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8em; }
+            .countdown { font-size: 1.4em; }
+            .logo { max-width: 150px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <div class="construction-icon">🚧</div>
+        <h1>网站升级进行中</h1>
+        <hr style="margin: 20px auto; width: 50%;">
+        <p>我们正在为您打造更卓越的体验</p>
+        <div class="countdown" id="countdown"></div>
+        <p>全新版本预计上线时间：∞ </p>
+        <div class="contact">
+            <p>如需帮助请联系：<br>
+            <a href="mailto:1224huangjin@gmail.com">contact@example.com</a></p>
+        </div>
+    </div>
+
+    <script>
+        // 设置目标日期（修改此处日期）
+        const targetDate = new Date('9999-12-31T00:00:00').getTime();
+        let countdownInterval;
+
+        function formatTime(number) {
+            return number < 10 ? `0${number}` : number;
+        }
+
+        function updateCountdown() {
+            const now = Date.now();
+            let distance = targetDate - now;
+
+            if (distance <= 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').innerHTML = "🎉 网站已正式上线！";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = 
+                `${formatTime(days)} 天 
+                 ${formatTime(hours)} 小时 
+                 ${formatTime(minutes)} 分 
+                 ${formatTime(seconds)} 秒`;
+        }
+
+        // 初始化倒计时
+        if (targetDate > Date.now()) {
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        } else {
+            document.getElementById('countdown').innerHTML = "🎉 网站已正式上线！<br>如果倒计时结束了还显示这个、那么请刷新后再试，谢谢";
+        }
+    </script>
+</body>
+</html>
